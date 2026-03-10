@@ -21,7 +21,7 @@ text-align:center;
 
 .container{
 background:white;
-padding:30px;
+padding:35px;
 border-radius:20px;
 box-shadow:0 20px 40px rgba(0,0,0,0.2);
 width:85%;
@@ -31,18 +31,19 @@ z-index:2;
 
 h1{
 color:#ff3e6c;
-font-size:24px;
-margin-bottom:20px;
+font-size:26px;
+margin-bottom:25px;
 }
 
 button{
-padding:14px;
+padding:15px;
 font-size:18px;
 border:none;
 border-radius:12px;
 cursor:pointer;
 margin:10px;
-width:120px;
+width:130px;
+transition:0.25s;
 }
 
 #yes{
@@ -89,13 +90,14 @@ width:100%;
 
 .success{
 display:none;
-font-size:22px;
+font-size:26px;
 color:#ff3e6c;
+padding:30px;
 }
 
-.rose,.choco{
+.flower,.choco{
 position:absolute;
-font-size:42px;
+font-size:44px;
 animation:fall linear infinite;
 }
 
@@ -106,13 +108,13 @@ animation:fall linear infinite;
 
 .confetti{
 position:absolute;
-font-size:35px;
+font-size:38px;
 animation:burst 2s ease-out forwards;
 }
 
 @keyframes burst{
 0%{transform:scale(0)}
-100%{transform:translateY(-200px) scale(1.5);opacity:0}
+100%{transform:translateY(-220px) scale(1.5);opacity:0}
 }
 
 </style>
@@ -150,7 +152,9 @@ animation:burst 2s ease-out forwards;
 </div>
 
 <div class="success" id="successMessage">
-❤️ I'm really glad you said yes! ❤️
+❤️ I'm really glad you said YES ❤️
+<br><br>
+Now I’m already excited for our date 😊
 </div>
 
 <script>
@@ -167,18 +171,21 @@ fetch(scriptURL,{
 method:"POST",
 body:new FormData(form)
 })
-.then(response=>{
+.then(()=>{
 
 document.getElementById("formPopup").style.display="none"
 document.querySelector(".container").style.display="none"
 document.getElementById("successMessage").style.display="block"
 
 })
-.catch(error=>alert("Something went wrong"))
 
 })
 
-const noBtn=document.getElementById("no")
+let noBtn=document.getElementById("no")
+let yesBtn=document.getElementById("yes")
+
+let noScale=1
+let yesScale=1
 
 function moveNo(){
 
@@ -188,12 +195,18 @@ let y=Math.random()*(window.innerHeight-60)
 noBtn.style.left=x+"px"
 noBtn.style.top=y+"px"
 
+noScale -=0.1
+yesScale +=0.1
+
+noBtn.style.transform="scale("+noScale+")"
+yesBtn.style.transform="scale("+yesScale+")"
+
 }
 
 noBtn.addEventListener("touchstart",moveNo)
 noBtn.addEventListener("mouseover",moveNo)
 
-document.getElementById("yes").onclick=function(){
+yesBtn.onclick=function(){
 
 createConfetti()
 document.getElementById("formPopup").style.display="block"
@@ -202,7 +215,7 @@ document.getElementById("formPopup").style.display="block"
 
 function createConfetti(){
 
-for(let i=0;i<20;i++){
+for(let i=0;i<25;i++){
 
 let heart=document.createElement("div")
 heart.classList.add("confetti")
@@ -219,15 +232,16 @@ setTimeout(()=>heart.remove(),2000)
 
 }
 
-for(let i=0;i<12;i++){
+for(let i=0;i<14;i++){
 
-let rose=document.createElement("div")
-rose.classList.add("rose")
-rose.innerHTML="🌹"
-rose.style.left=Math.random()*100+"%"
-rose.style.animationDuration=(Math.random()*4+4)+"s"
+let flower=document.createElement("div")
+flower.classList.add("flower")
+flower.innerHTML="🌸"
 
-document.body.appendChild(rose)
+flower.style.left=Math.random()*100+"%"
+flower.style.animationDuration=(Math.random()*4+4)+"s"
+
+document.body.appendChild(flower)
 
 }
 
@@ -236,6 +250,7 @@ for(let i=0;i<10;i++){
 let choco=document.createElement("div")
 choco.classList.add("choco")
 choco.innerHTML="🍫"
+
 choco.style.left=Math.random()*100+"%"
 choco.style.animationDuration=(Math.random()*5+5)+"s"
 
